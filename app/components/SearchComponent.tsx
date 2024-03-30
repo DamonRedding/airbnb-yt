@@ -1,39 +1,17 @@
-"use client";
+"use client"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator"
-
-import { Search } from "lucide-react";
 import { useState } from "react";
-import { useCountries } from "../lib/getCountries";
-import { HomeMap } from "./HomeMap";
+import { useCountries } from "../lib/getCountries"; // Ensure this hook is correctly implemented to fetch countries
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { CreationSubmit } from "./SubmitButtons";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Counter } from "./Counter";
+import { CreationSubmit } from "./SubmitButtons"; // This should be a component for submitting the form
+import { Counter } from "./Counter"; // Ensure this component exists for counting guests, rooms, etc.
+import { HomeMap } from "./HomeMap"; // A component to display the selected location on a map
+import { DatePickerWithRange } from "./DateRangePicker"; // Make sure the DateRangePicker component is imported correctly
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Search } from "lucide-react";
+import { CardDescription, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export function SearchModalCompnent() {
   const [step, setStep] = useState(1);
@@ -41,7 +19,7 @@ export function SearchModalCompnent() {
   const { getAllCountries } = useCountries();
 
   function SubmitButtonLocal() {
-    if (step === 1) {
+    if (step === 1 || step === 2) {
       return (
         <Popover>
           <PopoverTrigger>
@@ -49,15 +27,13 @@ export function SearchModalCompnent() {
               Next
             </Button>
           </PopoverTrigger>
-          <PopoverContent>
-            {/* Place the content that was previously in the Dialog here */}
-          </PopoverContent>
         </Popover>
       );
-    } else if (step === 2) {
+    } else if (step === 3) {
       return <CreationSubmit />;
     }
   }
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -67,7 +43,6 @@ export function SearchModalCompnent() {
             <p className="px-4">Any Week</p>
             <p className="px-4">Add Guests</p>
           </div>
-  
           <Search className="bg-primary text-white p-1 h-8 w-8 rounded-full" />
         </div>
       </PopoverTrigger>
@@ -77,8 +52,7 @@ export function SearchModalCompnent() {
           {step === 1 ? (
             <>
               <h2>Select a Country</h2>
-              <p>Pleae Choose a Country, so that what you want</p>
-  
+              <p>Please Choose a Country</p>
               <Select
                 required
                 onValueChange={(value) => setLocationValue(value)}
@@ -100,43 +74,35 @@ export function SearchModalCompnent() {
               </Select>
               <HomeMap locationValue={locationValue} />
             </>
+          ) : step === 2 ? (
+            <>
+              <h2>Select Dates</h2>
+              <p>Please select your check-in and check-out dates.</p>
+              <DatePickerWithRange />
+            </>
           ) : (
             <>
               <h2>Select all the info you need</h2>
-              <p>Pleae Choose a Country, so that what you want</p>
-  
-              {/* <Card> */}
-  {/* <CardHeader className="flex flex-col gap-y-5"> */}
-    <CardTitle>Guests</CardTitle>
-    <CardDescription>
-      How many guests do you want?
-    </CardDescription>
-    <Counter name="guest" />
-  {/* </CardHeader> */}
-
-  <Separator />
-
-  {/* <CardContent className="flex items-center justify-between"> */}
-    <CardTitle>Rooms</CardTitle>
-    <CardDescription>
-      How many rooms do you have?
-    </CardDescription>
-    <Counter name="room" />
-  {/* </CardContent> */}
-  
-  <Separator />
-
-  {/* <CardContent className="flex items-center justify-between"> */}
-    <CardTitle>Bathrooms</CardTitle>
-    <CardDescription>
-      How many bathrooms do you have?
-    </CardDescription>
-    <Counter name="bathroom" />
-  {/* </CardContent> */}
-{/* </Card> */}
+              <p>Please Choose what you need</p>
+              <CardTitle>Guests</CardTitle>
+              <CardDescription>
+                How many guests do you want?
+              </CardDescription>
+              <Counter name="guest" />
+              <Separator />
+              <CardTitle>Rooms</CardTitle>
+              <CardDescription>
+                How many rooms do you need?
+              </CardDescription>
+              <Counter name="room" />
+              <Separator />
+              <CardTitle>Bathrooms</CardTitle>
+              <CardDescription>
+                How many bathrooms do you need?
+              </CardDescription>
+              <Counter name="bathroom" />
             </>
           )}
-  
           <div>
             <SubmitButtonLocal />
           </div>
