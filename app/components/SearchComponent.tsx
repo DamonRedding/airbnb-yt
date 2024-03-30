@@ -19,13 +19,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator"
+
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { useCountries } from "../lib/getCountries";
 import { HomeMap } from "./HomeMap";
 import { Button } from "@/components/ui/button";
 import { CreationSubmit } from "./SubmitButtons";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Counter } from "./Counter";
 
 export function SearchModalCompnent() {
@@ -36,39 +43,42 @@ export function SearchModalCompnent() {
   function SubmitButtonLocal() {
     if (step === 1) {
       return (
-        <Button onClick={() => setStep(step + 1)} type="button">
-          Next
-        </Button>
+        <Popover>
+          <PopoverTrigger>
+            <Button onClick={() => setStep(step + 1)} type="button">
+              Next
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            {/* Place the content that was previously in the Dialog here */}
+          </PopoverContent>
+        </Popover>
       );
     } else if (step === 2) {
       return <CreationSubmit />;
     }
   }
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Popover>
+      <PopoverTrigger>
         <div className="rounded-full py-2 px-5 border flex items-center cursor-pointer">
           <div className="flex h-full divide-x font-medium">
             <p className="px-4">Anywhere</p>
             <p className="px-4">Any Week</p>
             <p className="px-4">Add Guests</p>
           </div>
-
+  
           <Search className="bg-primary text-white p-1 h-8 w-8 rounded-full" />
         </div>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      </PopoverTrigger>
+      <PopoverContent className="sm:max-w-[425px]">
         <form className="gap-4 flex flex-col">
           <input type="hidden" name="country" value={locationValue} />
           {step === 1 ? (
             <>
-              <DialogHeader>
-                <DialogTitle>Select a Country</DialogTitle>
-                <DialogDescription>
-                  Pleae Choose a Country, so that what you want
-                </DialogDescription>
-              </DialogHeader>
-
+              <h2>Select a Country</h2>
+              <p>Pleae Choose a Country, so that what you want</p>
+  
               <Select
                 required
                 onValueChange={(value) => setLocationValue(value)}
@@ -92,55 +102,46 @@ export function SearchModalCompnent() {
             </>
           ) : (
             <>
-              <DialogHeader>
-                <DialogTitle>Select all the info you need</DialogTitle>
-                <DialogDescription>
-                  Pleae Choose a Country, so that what you want
-                </DialogDescription>
-              </DialogHeader>
+              <h2>Select all the info you need</h2>
+              <p>Pleae Choose a Country, so that what you want</p>
+  
+              {/* <Card> */}
+  {/* <CardHeader className="flex flex-col gap-y-5"> */}
+    <CardTitle>Guests</CardTitle>
+    <CardDescription>
+      How many guests do you want?
+    </CardDescription>
+    <Counter name="guest" />
+  {/* </CardHeader> */}
 
-              <Card>
-                <CardHeader className="flex flex-col gap-y-5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <h3 className="underline font-medium">Guests</h3>
-                      <p className="text-muted-foreground text-sm">
-                        How many guests do you want?
-                      </p>
-                    </div>
+  <Separator />
 
-                    <Counter name="guest" />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <h3 className="underline font-medium">Rooms</h3>
-                      <p className="text-muted-foreground text-sm">
-                        How many rooms do you have?
-                      </p>
-                    </div>
+  {/* <CardContent className="flex items-center justify-between"> */}
+    <CardTitle>Rooms</CardTitle>
+    <CardDescription>
+      How many rooms do you have?
+    </CardDescription>
+    <Counter name="room" />
+  {/* </CardContent> */}
+  
+  <Separator />
 
-                    <Counter name="room" />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <h3 className="underline font-medium">Bathrooms</h3>
-                      <p className="text-muted-foreground text-sm">
-                        How many bathrooms do you have?
-                      </p>
-                    </div>
-
-                    <Counter name="bathroom" />
-                  </div>
-                </CardHeader>
-              </Card>
+  {/* <CardContent className="flex items-center justify-between"> */}
+    <CardTitle>Bathrooms</CardTitle>
+    <CardDescription>
+      How many bathrooms do you have?
+    </CardDescription>
+    <Counter name="bathroom" />
+  {/* </CardContent> */}
+{/* </Card> */}
             </>
           )}
-
-          <DialogFooter>
+  
+          <div>
             <SubmitButtonLocal />
-          </DialogFooter>
+          </div>
         </form>
-      </DialogContent>
-    </Dialog>
+      </PopoverContent>
+    </Popover>
   );
 }
