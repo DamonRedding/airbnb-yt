@@ -45,7 +45,7 @@ export function SearchModalCompnent() {
           <div className="flex items-center rounded-full bg-white shadow-lg">
             <div className="flex h-full divide-x font-medium">
               <p className="flex items-center justify-center px-6 border-r h-12 text-sm font-medium text-gray-700"> {locationValue || "Anywhere"}</p>
-              <p className="flex items-center justify-center px-6 border-r h-12 text-sm font-medium text-gray-700">{dateRange.startDate ? `Week of ${dateRange.startDate}` : "Any Week"}</p>
+              <p className="flex items-center justify-center px-6 border-r h-12 text-sm font-medium text-gray-700">{dateRange.from ? `Week of ${dateRange.from}` : "Any Week"}</p>
               <p className="flex items-center justify-center px-6 h-12 text-sm font-medium text-gray-700">{`Guests: ${guestCount}, Rooms: ${roomCount}, Bathrooms: ${bathroomCount}`}</p>
             </div>
             <Search className="flex items-center justify-center rounded-full bg-[#ff385c] p-3 ml-2 text-white" />
@@ -92,7 +92,7 @@ export function SearchModalCompnent() {
                 <CardTitle>Select Dates</CardTitle>
                 <CardDescription>Please select your check-in and check-out dates.</CardDescription>
               </CardHeader>
-              <DatePickerWithRange dateRange={dateRange} onDateChange={setDateRange} />
+              <DatePickerWithRange dateRange={dateRange} onDateChange={(range: DateRange | undefined) => setDateRange(range)} />
             </>
           ) : (
             <>
