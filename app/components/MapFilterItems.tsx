@@ -27,15 +27,15 @@ export function MapFilterItems() {
     <div className="flex gap-x-10 mt-5 w-full overflow-x-scroll no-scrollbar">
       {categoryItems.map((item) => (
         <Link
-          key={item.id}
-          href={pathname + "?" + createQueryString("filter", item.name)}
-          className={cn(
-            search === item.name
-              ? "border-b-2 border-black pb-2 flex-shrink-0"
-              : "opacity-70 flex-shrink-0",
-            "flex flex-col gap-y-3 items-center"
-          )}
-        >
+        key={item.id}
+        href={pathname + "?" + createQueryString("filter", item.name)}
+        className={cn(
+          search === item.name
+            ? "border-b-2 border-black pb-2 flex-shrink-0"
+            : "opacity-70 flex-shrink-0",
+          "flex flex-col gap-y-3 items-center hover:border-b-2 hover:border-gray-400 hover:opacity-70"
+        )}
+      >      
           <div className="relative w-6 h-6">
             <Image
               src={item.imageUrl}
